@@ -101,7 +101,7 @@ orc_meat = OrcMeat()
 
 items_list = {
     "Iron Fang Blade" : iron_fang_blade,
-    "Knights Edge" : knights_edge,
+    "Knight's Edge" : knights_edge,  # Fixed: Added apostrophe to match item name
     "Titan Slayer" : titan_slayer,
     "Staff of Wisdom" : staff_of_wisdom,
     "Arcane Orb" : arcane_orb,
@@ -117,7 +117,7 @@ items_list = {
 
 skill_list = {
     "Sword Cut" : sword_cut,
-    "Sword Strike" : sword_cut,
+    "Sword Strike" : sword_strike,  # Fixed: was pointing to sword_cut instead of sword_strike
     "Sword Slash" : sword_slash,
     "Sword Heal" : sword_heal,
     "Fire Ball" : fire_ball,
@@ -136,7 +136,7 @@ orc = Orc()
 vampire_lord = VampireLord()
 
 
-# Excecute the program
+# Execute the program
 if __name__=="__main__":
     chr_info = game_engine.load_file(main_file_name)
     if not chr_info or "name" not in chr_info:
@@ -156,43 +156,28 @@ if __name__=="__main__":
 
         elif main_character.location == "Main Entrance":
             game_engine.safe_zones_menu(main_character, "Main Entrance", "First Route", "Kobold's Den", "Second Route", "Graveyard")
-            if restart:
-                continue
 
         elif main_character.location == "Kobold's Den":
             game_engine.Battle_rooms(main_character, "Kobold's Den", kobold, "Main Entrance", "Sanctuary of Solace")
-            if restart:
-                continue
 
         elif main_character.location == "Sanctuary of Solace":
-            game_engine.safe_zones_menu(main_character, "Sanctuary of solace", "Kobold's Den", "Kobold's Den", "Next Room", "LizardMen's Lair")
-            if restart:
-                continue
+            game_engine.safe_zones_menu(main_character, "Sanctuary of Solace", "Kobold's Den", "Kobold's Den", "Next Room", "LizardMen's Lair")  # Fixed: corrected location name
+
         elif main_character.location == "LizardMen's Lair":
             game_engine.Battle_rooms(main_character, "LizardMen's Lair", lizardmen, "Sanctuary of Solace", "Chamber of the Forsaken")
-            if restart:
-                continue
 
         elif main_character.location == "Graveyard":
             game_engine.Battle_rooms(main_character, "Graveyard", skeleton, "Main Entrance", "The Whispering Hearth")
-            if restart:
-                continue
 
         elif main_character.location == "The Whispering Hearth":
             game_engine.safe_zones_menu(main_character, "The Whispering Hearth", "Graveyard", "Graveyard", "Next Room", "Orc Village")
-            if restart:
-                continue
 
         elif main_character.location == "Orc Village":
             game_engine.Battle_rooms(main_character, "Orc Village", orc, "The Whispering Hearth", "Chamber of the Forsaken")
-            if restart:
-                continue
 
         elif main_character.location == "Chamber of the Forsaken":
             if "Crimson Key" not in main_character.inventory:
                 game_engine.boss_room_menu_no_key(main_character, "Chamber of the Forsaken", main_character.previous_room)
-                if restart:
-                    continue
 
             elif "Crimson Key" in main_character.inventory:
                 if main_character.boss_defeated == "undefeated":
@@ -214,7 +199,7 @@ if __name__=="__main__":
                         main_character.location = "Main Entrance"
                         game_engine.restore_stats(main_character)
                         game_engine.save_to_file(main_file_name, main_character.to_dict())
-                        restart = True
+                        continue  # Fixed: removed restart variable and used continue directly
                         
                     print("System : Silence falls like a curtain. The air grows still. Vehraxis the Crimson Wane... is no more.")
                     print("System : His body dissolves into crimson mist, leaving behind only ash and a faint whisper — 'Not... the end...'")
@@ -227,14 +212,12 @@ if __name__=="__main__":
                     print("System : The key fragment shimmers in the remains... you may now proceed.")
                     main_character.boss_defeated = "defeated"
                     game_engine.save_to_file(main_file_name, main_character.to_dict())
-                    restart = True
-                    if restart:
-                        continue
+                    continue  # Fixed: removed restart variable and used continue directly
 
                 elif main_character.boss_defeated == "defeated":
                     print("Ravemir : ...So it is done.")
                     print("\t  The silence... it feels foreign. No more whispers in the dark corners of my helm.")
-                    print("\t  You’ve shattered the curse that bound this threshold. Vehraxis is no more.")
+                    print("\t  You've shattered the curse that bound this threshold. Vehraxis is no more.")
 
                     print("Ravemir : I have waited lifetimes for a blade brave enough... a soul bold enough...")
                     print("\t  You are both.")
@@ -243,15 +226,7 @@ if __name__=="__main__":
                     print("System : Ravemir lowers his halberd one final time. His armor crumbles into crimson dust, carried away by a wind that was never there before.")
                     main_character.boss_defeated = "story ends"
                     game_engine.save_to_file(main_file_name, main_character.to_dict())
-                    restart = True
-                    if restart:
-                        continue
+                    continue  # Fixed: removed restart variable and used continue directly
                 
                 elif main_character.boss_defeated == "story ends":
                     game_engine.boss_room_menu_end(main_character, "Chamber of the Forsaken", vampire_lord, "Orc Village", "LizardMen's Lair")
-        
-        if restart:
-            continue
-
-
-                

@@ -121,8 +121,8 @@ class MainCharacter(Character):
 # ==================================================== Enemies Class ==================================================================
 #This is the Enemies Class which also inherites from the Character Class
 class Enemies(Character):
-    def __init__(self, name, strength, health, mana, drop, drop_price):
-        super().__init__(name,strength, health, mana)
+    def __init__(self, name, character_class, strength, health, mana, drop, drop_price):  # Fixed: added character_class parameter
+        super().__init__(name, character_class, health, health, strength, 0, mana, mana, 0, 0)  # Fixed: corrected parameter order
         self.drop = drop
         self.drop_price = drop_price
 
@@ -166,7 +166,7 @@ venomous_spit = VenomousSpit()
 class LizardMen(Monsters):
     def __init__(self):
         super().__init__(name = "Lizard Men",  health = 100 , drop = "Lizardmen's scales", exp = 400)
-        self. skills = [tail_whip, venomous_spit]
+        self.skills = [tail_whip, venomous_spit]  # Fixed: removed space in self.skills
 
 # ==================================================== Orc ===========================================================================
 
@@ -237,11 +237,8 @@ class Merchant(NPC):
 
 class DescriptiveNPC(NPC):
     def __init__(self):
-        super().__init__(name = "Unkown", occupation = "Unknown")
+        super().__init__(name = "Unknown", occupation = "Unknown")  # Fixed: corrected spelling
 
 class QuestNPC(NPC):
     def __init__(self):
         super().__init__(name = "Ravemir, the Crimson Vowkeeper", occupation = "Eternal Sentinel of the Blood Gate")
-
-
-     

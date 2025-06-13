@@ -38,7 +38,7 @@ class Skills:
         if self.mana_usage:
             return f"\tSkill Name : {self.name}\n\tSkill Level : {self.lvl}\t\tAttack : {self.attack}\n\tHeal : {self.heal}\t\tHealth Usage : {self.health_usage}\n\tMana Heal : {self.mana_heal}\t\tMana Usage : {self.mana_usage}"
         elif self.stamina_usage:
-            return f"\tSkill Name : {self.name}\n\tSkill Level : {self.lvl}\t\tAttack : {self.attack}\n\tHeal : {self.heal}\t\tHealth Usage : {self.health_usage}\n\tStamina Heal : {self.stamina_heal}\t\tStamina Usage : {self.stamina_heal}"
+            return f"\tSkill Name : {self.name}\n\tSkill Level : {self.lvl}\t\tAttack : {self.attack}\n\tHeal : {self.heal}\t\tHealth Usage : {self.health_usage}\n\tStamina Heal : {self.stamina_heal}\t\tStamina Usage : {self.stamina_usage}"  # Fixed: was using stamina_heal instead of stamina_usage
 
 
 # =========================================== Enemies Skills ============================================================================
@@ -188,7 +188,7 @@ class RattleHex(MonsterSkills):
 class TailWhip(MonsterSkills):
     def __init__(self):
         super().__init__(
-            name = "TailWhip", species = "Monster", attack = 34,
+            name = "Tail Whip", species = "Monster", attack = 34,  # Fixed: added space in name
             status_effect = None, status_apply_chance = None,
             status_effect_damage = None, status_effect_duration = None
             )
