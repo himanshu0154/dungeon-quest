@@ -81,6 +81,20 @@ def save_to_file(file_name, data):
     with open(file_name, 'w') as file:
         json.dump(data, file, indent=4)
 
+# ====================================================== Starting scene =============================================================
+
+def starting_scene():
+    print("\n" + "="*50)
+    print("            WELCOME TO DUNGEON QUEST")
+    print("="*50 + "\n")
+    print("You find yourself standing at the entrance of a dark and mysterious dungeon.")
+    print("Two paths lie ahead of you:")
+    print("  1) The winding, eerie tunnels of the Kobold Den.")
+    print("  2) The chilling silence of the Graveyard.")
+    print("\nWill you dare to choose your path and face the dangers within?\n")
+    print("Prepare yourself, hero... Your quest begins now!\n")
+    print("="*50 + "\n")
+
 
 # ================================================= Create a new character ====================================================
 
