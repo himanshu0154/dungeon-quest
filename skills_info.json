@@ -1,0 +1,102 @@
+{
+    "Sword Cut": {
+        "level": 1,
+        "Attack": 5,
+        "Heal": 0,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 0,
+        "Health usage": 0,
+        "Stamina usage": 5
+    },
+    "Sword Strike": {
+        "level": 1,
+        "Attack": 25,
+        "Heal": 0,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 0,
+        "Health usage": 0,
+        "Stamina usage": 20
+    },
+    "Sword Slash": {
+        "level": 1,
+        "Attack": 15,
+        "Heal": 0,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 0,
+        "Health usage": 0,
+        "Stamina usage": 10
+    },
+    "Sword Heal": {
+        "level": 1,
+        "Attack": 5,
+        "Heal": 40,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 0,
+        "Health usage": 0,
+        "Stamina usage": 30
+    },
+    "Stamina Heal": {
+        "level": 1,
+        "Attack": 0,
+        "Heal": 0,
+        "Mana heal": 0,
+        "Stamina heal": 40,
+        "Mana usage": 0,
+        "Health usage": 20,
+        "Stamina usage": 0
+    },
+    "Fire Ball": {
+        "level": "Max",
+        "Attack": 50,
+        "Heal": 0,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 10,
+        "Health usage": 0,
+        "Stamina usage": 40
+    },
+    "Ice Spike": {
+        "level": "Max",
+        "Attack": 30,
+        "Heal": 0,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 10,
+        "Health usage": 0,
+        "Stamina usage": 20
+    },
+    "Arcane Shot": {
+        "level": 2,
+        "Attack": 35,
+        "Heal": 0,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 15,
+        "Health usage": 0,
+        "Stamina usage": 0
+    },
+    "Healing Light": {
+        "level": 2,
+        "Attack": 0,
+        "Heal": 70,
+        "Mana heal": 0,
+        "Stamina heal": 0,
+        "Mana usage": 10,
+        "Health usage": 0,
+        "Stamina usage": 40
+    },
+    "Mana Heal": {
+        "level": "Max",
+        "Attack": 0,
+        "Heal": 0,
+        "Mana heal": 70,
+        "Stamina heal": 0,
+        "Mana usage": 0,
+        "Health usage": 30,
+        "Stamina usage": 0
+    }
+}

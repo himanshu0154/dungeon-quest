@@ -138,9 +138,9 @@ vampire_lord = VampireLord()
 
 # Excecute the program
 if __name__=="__main__":
-    game_engine.starting_scene()
     chr_info = game_engine.load_file(main_file_name)
     if not chr_info or "name" not in chr_info:
+        game_engine.starting_scene()
         game_engine.create_character()
         chr_info = game_engine.load_file(main_file_name)
 

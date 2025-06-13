@@ -1106,6 +1106,10 @@ def descriptive_npc(main_character):
                                 main_character.inventory.append("Crimson Key")
                                 save_to_file(main_file_name, main_character.to_dict())
                                 continue
+                            else:
+                                print("Ravemir : Your soul is not yet forged for what lies beyond."
+                                    "\n\t  Return when your body and mind rise above fear.")
+                                continue
                         elif main_character.character_class == "swordsman":
                             if main_character.strength >= 10 and main_character.current_stamina >= 50 and main_character.current_health >= 50:
                                 print("Ravemir : Strength… endurance... and life. You carry them well."
@@ -1113,10 +1117,10 @@ def descriptive_npc(main_character):
                                 main_character.inventory.append("Crimson Key")
                                 save_to_file(main_file_name, main_character.to_dict())
                                 continue
-                        else:
-                            print("Ravemir : Your soul is not yet forged for what lies beyond."
-                                "\n\t  Return when your body and mind rise above fear.")
-                            continue
+                            else:
+                                print("Ravemir : Your soul is not yet forged for what lies beyond."
+                                    "\n\t  Return when your body and mind rise above fear.")
+                                continue
 
                     elif user_response == 3:
                         print("Ravemir : Vehraxis was once a prince — now, a plague with a crown."

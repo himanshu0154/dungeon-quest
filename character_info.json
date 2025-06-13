@@ -1,0 +1,51 @@
+{
+    "name": "himanshu",
+    "character_class": "mage",
+    "max health": 100,
+    "current health": 127,
+    "strength": 0,
+    "intelligence": 38,
+    "max mana": 100,
+    "current mana": 55,
+    "max stamina": 0,
+    "current stamina": 0,
+    "inventory": [
+        "Staff of Wisdom",
+        "Skeleton's ash",
+        "Orc Meat",
+        "Crimson Key",
+        "Crimson Fang"
+    ],
+    "skills": [
+        "Ice Spike",
+        "Fire Ball",
+        "Healing Light",
+        "Arcane Shot",
+        "Mana Heal"
+    ],
+    "lvl": 5,
+    "experience": 200,
+    "stat_points": 52,
+    "gold": 300,
+    "status_effect": null,
+    "status_duration": 0,
+    "weapon": null,
+    "location": "Chamber of the Forsaken",
+    "location discovered": [
+        "Main Entrance",
+        "Kobold's Den",
+        "Sanctuary of Solace",
+        "LizardMen's Lair",
+        "Chamber of the Forsaken",
+        "Graveyard",
+        "The Whispering Hearth",
+        "Orc Village"
+    ],
+    "chest founded": [
+        "chest1 opened",
+        "chest3 opened",
+        "chest4 opened"
+    ],
+    "boss defeated": "story ends",
+    "previous room": "Orc Village"
+}
