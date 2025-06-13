@@ -1,3 +1,8 @@
+"""
+Main execution file for Dungeon Quest game.
+Handles game loop, location management, and character progression.
+"""
+
 import engine_main as game_engine
 main_file_name = "character_info.json"
 
@@ -46,16 +51,22 @@ from skills_main import CrimsonHowl
 from skills_main import ShadowBurst
 from skills_main import BloodDrain
 
+
+# Custom exception classes for game logic
 class WrongClass(Exception):
     pass
+
 class WrongStat(Exception):
     pass
+
 class NotEnough(Exception):
     pass
+
 class InvalidInput(Exception):
     pass
 
-# This are the main character's skills as of now
+
+# Initialize player skill instances
 sword_cut = SwordCut()
 sword_strike = SwordStrike()
 sword_slash = SwordSlash()
@@ -68,8 +79,7 @@ arcane_shot = ArcaneShot()
 healing_light = HealingLight()
 mana_heal = ManaHeal()
 
-# This are the monster's skills as of now 
-
+# Initialize monster skill instances
 rusty_shiv = RustyShiv()
 pocket_flame = PocketFlame()
 bone_pierce = BonePierce()
@@ -82,8 +92,7 @@ blood_drain = BloodDrain()
 crimson_howl = CrimsonHowl()
 shadow_burst = ShadowBurst()
 
-# These are the items 
-
+# Initialize item instances
 iron_fang_blade = IronFangBlade()
 knights_edge = KnightsEdge()
 titan_slayer = TitanSlayer()
@@ -98,37 +107,38 @@ skeleton_ash = SkeletonAsh()
 lizard_tail = LizardTail()
 orc_meat = OrcMeat()
 
-
+# Item lookup dictionary for inventory management
 items_list = {
-    "Iron Fang Blade" : iron_fang_blade,
-    "Knight's Edge" : knights_edge,  # Fixed: Added apostrophe to match item name
-    "Titan Slayer" : titan_slayer,
-    "Staff of Wisdom" : staff_of_wisdom,
-    "Arcane Orb" : arcane_orb,
-    "Enchanted Cloak" : enchanted_cloak,
-    "Health Potion" : health_potion,
-    "Mana Potion" : mana_potion,
-    "Stamina Potion" : stamina_potion,
-    "Kobold Stone" : kobold_stone,
-    "Skeleton's ash" : skeleton_ash,
-    "Lizardmen's scales" : lizard_tail,
-    "Orc Meat" : orc_meat
+    "Iron Fang Blade": iron_fang_blade,
+    "Knight's Edge": knights_edge,
+    "Titan Slayer": titan_slayer,
+    "Staff of Wisdom": staff_of_wisdom,
+    "Arcane Orb": arcane_orb,
+    "Enchanted Cloak": enchanted_cloak,
+    "Health Potion": health_potion,
+    "Mana Potion": mana_potion,
+    "Stamina Potion": stamina_potion,
+    "Kobold Stone": kobold_stone,
+    "Skeleton's ash": skeleton_ash,
+    "Lizardmen's scales": lizard_tail,
+    "Orc Meat": orc_meat
 }
 
+# Skill lookup dictionary for character abilities
 skill_list = {
-    "Sword Cut" : sword_cut,
-    "Sword Strike" : sword_strike,  # Fixed: was pointing to sword_cut instead of sword_strike
-    "Sword Slash" : sword_slash,
-    "Sword Heal" : sword_heal,
-    "Fire Ball" : fire_ball,
-    "Ice Spike" : ice_spike,
-    "Arcane Shot" : arcane_shot,
-    "Healing Light" : healing_light,
-    "Mana Heal" : mana_heal,
-    "Stamina Heal" : stamina_heal
+    "Sword Cut": sword_cut,
+    "Sword Strike": sword_strike,
+    "Sword Slash": sword_slash,
+    "Sword Heal": sword_heal,
+    "Fire Ball": fire_ball,
+    "Ice Spike": ice_spike,
+    "Arcane Shot": arcane_shot,
+    "Healing Light": healing_light,
+    "Mana Heal": mana_heal,
+    "Stamina Heal": stamina_heal
 }
 
-# Enemies
+# Initialize monster instances
 kobold = KoboldMonster()
 skeleton = Skeleton()
 lizardmen = LizardMen()
@@ -136,8 +146,9 @@ orc = Orc()
 vampire_lord = VampireLord()
 
 
-# Execute the program
-if __name__=="__main__":
+# Main game execution
+if __name__ == "__main__":
+    # Load or create character data
     chr_info = game_engine.load_file(main_file_name)
     if not chr_info or "name" not in chr_info:
         game_engine.starting_scene()
@@ -146,26 +157,30 @@ if __name__=="__main__":
 
     main_character = MainCharacter.from_dict(chr_info)
 
+    # Main game loop - handles location-based gameplay
     while True:
-        restart = False
+        # Set initial location if character is new
         if main_character.location is None:
             main_character.location = "Main Entrance"
             main_character.location_discovered.append(main_character.location)
             game_engine.save_to_file(main_file_name, main_character.to_dict())
             continue
 
+        # Main hub with route selection
         elif main_character.location == "Main Entrance":
             game_engine.safe_zones_menu(main_character, "Main Entrance", "First Route", "Kobold's Den", "Second Route", "Graveyard")
 
+        # First route locations
         elif main_character.location == "Kobold's Den":
             game_engine.Battle_rooms(main_character, "Kobold's Den", kobold, "Main Entrance", "Sanctuary of Solace")
 
         elif main_character.location == "Sanctuary of Solace":
-            game_engine.safe_zones_menu(main_character, "Sanctuary of Solace", "Kobold's Den", "Kobold's Den", "Next Room", "LizardMen's Lair")  # Fixed: corrected location name
+            game_engine.safe_zones_menu(main_character, "Sanctuary of Solace", "Kobold's Den", "Kobold's Den", "Next Room", "LizardMen's Lair")
 
         elif main_character.location == "LizardMen's Lair":
             game_engine.Battle_rooms(main_character, "LizardMen's Lair", lizardmen, "Sanctuary of Solace", "Chamber of the Forsaken")
 
+        # Second route locations
         elif main_character.location == "Graveyard":
             game_engine.Battle_rooms(main_character, "Graveyard", skeleton, "Main Entrance", "The Whispering Hearth")
 
@@ -175,12 +190,16 @@ if __name__=="__main__":
         elif main_character.location == "Orc Village":
             game_engine.Battle_rooms(main_character, "Orc Village", orc, "The Whispering Hearth", "Chamber of the Forsaken")
 
+        # Final boss area
         elif main_character.location == "Chamber of the Forsaken":
+            # Check if player has required key for boss fight
             if "Crimson Key" not in main_character.inventory:
                 game_engine.boss_room_menu_no_key(main_character, "Chamber of the Forsaken", main_character.previous_room)
 
             elif "Crimson Key" in main_character.inventory:
+                # Handle different boss fight states
                 if main_character.boss_defeated == "undefeated":
+                    # Initial boss encounter
                     print("System : The chamber trembles as you insert the Crimson Key...")
                     print("System : The scent of iron fills the air. A cold presence watches you from the shadows.")
 
@@ -193,14 +212,19 @@ if __name__=="__main__":
 
                     print("Vehraxis : Come then. Bleed. Break. Belong.")
                     print("\t   I'll sip your strength like vintage sorrow, and wear your heart like a medal.")
+                    
+                    # Execute boss battle
                     game_engine.battle(main_character, monster)
                     game_engine.save_to_file(main_file_name, main_character.to_dict())
+                    
+                    # Handle player death
                     if main_character.current_health == 0:
                         main_character.location = "Main Entrance"
                         game_engine.restore_stats(main_character)
                         game_engine.save_to_file(main_file_name, main_character.to_dict())
-                        continue  # Fixed: removed restart variable and used continue directly
+                        continue
                         
+                    # Boss victory sequence
                     print("System : Silence falls like a curtain. The air grows still. Vehraxis the Crimson Wane... is no more.")
                     print("System : His body dissolves into crimson mist, leaving behind only ash and a faint whisper — 'Not... the end...'")
 
@@ -210,11 +234,13 @@ if __name__=="__main__":
                     print("System : Boss Defeated!")
                     print(f"System : {main_character.name} has triumphed over the Crimson Wane and proven their might.")
                     print("System : The key fragment shimmers in the remains... you may now proceed.")
+                    
                     main_character.boss_defeated = "defeated"
                     game_engine.save_to_file(main_file_name, main_character.to_dict())
-                    continue  # Fixed: removed restart variable and used continue directly
+                    continue
 
                 elif main_character.boss_defeated == "defeated":
+                    # Post-boss victory dialogue
                     print("Ravemir : ...So it is done.")
                     print("\t  The silence... it feels foreign. No more whispers in the dark corners of my helm.")
                     print("\t  You've shattered the curse that bound this threshold. Vehraxis is no more.")
@@ -224,9 +250,11 @@ if __name__=="__main__":
                     print("\t  Go now, bearer of fate. My watch is over.")
 
                     print("System : Ravemir lowers his halberd one final time. His armor crumbles into crimson dust, carried away by a wind that was never there before.")
+                    
                     main_character.boss_defeated = "story ends"
                     game_engine.save_to_file(main_file_name, main_character.to_dict())
-                    continue  # Fixed: removed restart variable and used continue directly
+                    continue
                 
                 elif main_character.boss_defeated == "story ends":
+                    # Post-game exploration mode
                     game_engine.boss_room_menu_end(main_character, "Chamber of the Forsaken", vampire_lord, "Orc Village", "LizardMen's Lair")
