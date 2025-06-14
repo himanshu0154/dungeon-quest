@@ -3,271 +3,180 @@ Item system for Dungeon Quest game.
 Contains all weapon, potion, and drop item classes with their stats and effects.
 """
 
+from base_classes import BaseItem
 
-class Item:
-    """Base item class with common attributes for all items."""
-    
-    def __init__(self, class_of_weapon, name, class_required, attack_increase, heal, intelligence_increase, mana_replenish, stamina_replenish, price):
-        self.name = name
-        self.class_of_weapon = class_of_weapon
-        self.class_required = class_required
-        self.attack_increase = attack_increase
-        self.heal = heal
-        self.intelligence_increase = intelligence_increase
-        self.mana_replenish = mana_replenish
-        self.stamina_replenish = stamina_replenish
-        self.price = price
 
-    def __str__(self):
-        """Display item information based on class requirements and type."""
-        if self.class_required == "mage":
-            if self.class_of_weapon == "weapon":
-                return f"\tName : {self.name}\n\tWeapon class : {self.class_of_weapon}\t\tClass Requirement : {self.class_required}\n\tIntelligence increase : {self.intelligence_increase}\tMana replenish : {self.mana_replenish}\n\tHeal : {self.heal}\t\t\tPrice : {self.price}"
-            elif self.class_of_weapon == "potion":
-                return f"\tName : {self.name}\n\tWeapon class : {self.class_of_weapon}\t\tClass Requirement : {self.class_required}\n\tMana replenish : {self.mana_replenish}\t\tPrice : {self.price}"
-        elif self.class_required == "swordsman":
-            if self.class_of_weapon == "weapon":
-                return f"\tName : {self.name}\n\tWeapon class : {self.class_of_weapon}\t\tClass Requirement : {self.class_required}\n\tStrenght increase : {self.attack_increase}\t\tStamina replenish : {self.stamina_replenish}\n\tHeal : {self.heal}\t\t\tPrice : {self.price}"
-            elif self.class_of_weapon == "potion":
-                return f"\tName : {self.name}\n\tWeapon class : {self.class_of_weapon}\t\tClass Requirement : {self.class_required}\n\Stamina replenish : {self.stamina_replenish}\t\tPrice : {self.price}"
-        elif self.class_required is None:
-            if self.class_of_weapon == "potion":
-                return f"\tName : {self.name}\n\tWeapon class : {self.class_of_weapon}\n\tHeal : {self.heal}\t\tPrice : {self.price}"
-            elif self.class_of_weapon == "drop":
-                return f"\tName : {self.name}\n\tWeapon class : {self.class_of_weapon}\n\tPrice : {self.price}"
-            else:
-                return "\tUnknown Item - No Info Available"
-        else:
-            return f"System : Unknown Item - {self.name}"
+# Weapon factory functions to reduce repetition
+def create_swordsman_weapon(name, attack_increase, heal, stamina_replenish, price):
+    """Factory function for creating swordsman weapons."""
+    return BaseItem(
+        name=name,
+        class_of_weapon="weapon",
+        class_required="swordsman",
+        attack_increase=attack_increase,
+        heal=heal,
+        intelligence_increase=0,
+        mana_replenish=0,
+        stamina_replenish=stamina_replenish,
+        price=price
+    )
+
+
+def create_mage_weapon(name, heal, intelligence_increase, mana_replenish, price):
+    """Factory function for creating mage weapons."""
+    return BaseItem(
+        name=name,
+        class_of_weapon="weapon",
+        class_required="mage",
+        attack_increase=0,
+        heal=heal,
+        intelligence_increase=intelligence_increase,
+        mana_replenish=mana_replenish,
+        stamina_replenish=0,
+        price=price
+    )
+
+
+def create_potion(name, class_required, heal=0, mana_replenish=0, stamina_replenish=0, price=0):
+    """Factory function for creating potions."""
+    return BaseItem(
+        name=name,
+        class_of_weapon="potion",
+        class_required=class_required,
+        attack_increase=0,
+        heal=heal,
+        intelligence_increase=0,
+        mana_replenish=mana_replenish,
+        stamina_replenish=stamina_replenish,
+        price=price
+    )
+
+
+def create_drop_item(name, price):
+    """Factory function for creating drop items."""
+    return BaseItem(
+        name=name,
+        class_of_weapon="drop",
+        class_required=None,
+        attack_increase=0,
+        heal=0,
+        intelligence_increase=0,
+        mana_replenish=0,
+        stamina_replenish=0,
+        price=price
+    )
 
 
 # Swordsman weapon classes
-class IronFangBlade(Item):
+class IronFangBlade(BaseItem):
     """Basic swordsman weapon with balanced stats."""
     
     def __init__(self):
-        super().__init__(
-            name="Iron Fang Blade",
-            class_of_weapon="weapon",
-            class_required="swordsman",
-            attack_increase=10,
-            heal=10,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=5,
-            price=500
-        )
+        weapon = create_swordsman_weapon("Iron Fang Blade", 10, 10, 5, 500)
+        super().__init__(weapon.name, weapon.class_of_weapon, weapon.class_required, weapon.attack_increase, weapon.heal, weapon.intelligence_increase, weapon.mana_replenish, weapon.stamina_replenish, weapon.price)
 
 
-class KnightsEdge(Item):
+class KnightsEdge(BaseItem):
     """Mid-tier swordsman weapon with improved stats."""
     
     def __init__(self):
-        super().__init__(
-            name="Knight's Edge",
-            class_of_weapon="weapon",
-            class_required="swordsman",
-            attack_increase=15,
-            heal=15,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=10,
-            price=800
-        )
+        weapon = create_swordsman_weapon("Knight's Edge", 15, 15, 10, 800)
+        super().__init__(weapon.name, weapon.class_of_weapon, weapon.class_required, weapon.attack_increase, weapon.heal, weapon.intelligence_increase, weapon.mana_replenish, weapon.stamina_replenish, weapon.price)
 
 
-class TitanSlayer(Item):
+class TitanSlayer(BaseItem):
     """High-tier swordsman weapon with powerful stats."""
     
     def __init__(self):
-        super().__init__(
-            name="Titan Slayer",
-            class_of_weapon="weapon",
-            class_required="swordsman",
-            attack_increase=25,
-            heal=13,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=15,
-            price=1500
-        )
+        weapon = create_swordsman_weapon("Titan Slayer", 25, 13, 15, 1500)
+        super().__init__(weapon.name, weapon.class_of_weapon, weapon.class_required, weapon.attack_increase, weapon.heal, weapon.intelligence_increase, weapon.mana_replenish, weapon.stamina_replenish, weapon.price)
 
 
 # Mage weapon classes        
-class StaffOfWisdom(Item):
+class StaffOfWisdom(BaseItem):
     """Basic mage weapon focusing on intelligence and mana."""
     
     def __init__(self):
-        super().__init__(
-            name="Staff of Wisdom",
-            class_of_weapon="weapon",
-            class_required="mage",
-            attack_increase=0,
-            heal=10,
-            intelligence_increase=10,
-            mana_replenish=20,
-            stamina_replenish=0,
-            price=600
-        )
+        weapon = create_mage_weapon("Staff of Wisdom", 10, 10, 20, 600)
+        super().__init__(weapon.name, weapon.class_of_weapon, weapon.class_required, weapon.attack_increase, weapon.heal, weapon.intelligence_increase, weapon.mana_replenish, weapon.stamina_replenish, weapon.price)
 
 
-class ArcaneOrb(Item):
+class ArcaneOrb(BaseItem):
     """Mid-tier mage weapon with enhanced magical properties."""
     
     def __init__(self):
-        super().__init__(
-            name="Arcane Orb",
-            class_of_weapon="weapon",
-            class_required="mage",
-            attack_increase=0,
-            heal=15,
-            intelligence_increase=15,
-            mana_replenish=30,
-            stamina_replenish=0,
-            price=1000
-        )
+        weapon = create_mage_weapon("Arcane Orb", 15, 15, 30, 1000)
+        super().__init__(weapon.name, weapon.class_of_weapon, weapon.class_required, weapon.attack_increase, weapon.heal, weapon.intelligence_increase, weapon.mana_replenish, weapon.stamina_replenish, weapon.price)
 
 
-class EnchantedCloak(Item):
+class EnchantedCloak(BaseItem):
     """High-tier mage equipment with powerful magical enhancements."""
     
     def __init__(self):
-        super().__init__(
-            name="Enchanted Cloak",
-            class_of_weapon="weapon",
-            class_required="mage",
-            attack_increase=0,
-            heal=20,
-            intelligence_increase=25,
-            mana_replenish=15,
-            stamina_replenish=0,
-            price=1600
-        )
+        weapon = create_mage_weapon("Enchanted Cloak", 20, 25, 15, 1600)
+        super().__init__(weapon.name, weapon.class_of_weapon, weapon.class_required, weapon.attack_increase, weapon.heal, weapon.intelligence_increase, weapon.mana_replenish, weapon.stamina_replenish, weapon.price)
 
 
 # Consumable potion classes
-class HealthPotion(Item):
+class HealthPotion(BaseItem):
     """Universal healing potion usable by any class."""
     
     def __init__(self):
-        super().__init__(
-            name="Health Potion",
-            class_of_weapon="potion",
-            class_required=None,
-            attack_increase=0,
-            heal=50,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=0,
-            price=500
-        )
+        potion = create_potion("Health Potion", None, heal=50, price=500)
+        super().__init__(potion.name, potion.class_of_weapon, potion.class_required, potion.attack_increase, potion.heal, potion.intelligence_increase, potion.mana_replenish, potion.stamina_replenish, potion.price)
 
 
-class StaminaPotion(Item):
+class StaminaPotion(BaseItem):
     """Stamina restoration potion for swordsman class."""
     
     def __init__(self):
-        super().__init__(
-            name="Stamina Potion",
-            class_of_weapon="potion",
-            class_required="swordsman",
-            attack_increase=0,
-            heal=0,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=40,
-            price=300
-        )
+        potion = create_potion("Stamina Potion", "swordsman", stamina_replenish=40, price=300)
+        super().__init__(potion.name, potion.class_of_weapon, potion.class_required, potion.attack_increase, potion.heal, potion.intelligence_increase, potion.mana_replenish, potion.stamina_replenish, potion.price)
 
 
-class ManaPotion(Item):
+class ManaPotion(BaseItem):
     """Mana restoration potion for mage class."""
     
     def __init__(self):
-        super().__init__(
-            name="Mana Potion",
-            class_of_weapon="potion",
-            class_required="mage",
-            attack_increase=0,
-            heal=0,
-            intelligence_increase=0,
-            mana_replenish=50,
-            stamina_replenish=0,
-            price=300
-        )
+        potion = create_potion("Mana Potion", "mage", mana_replenish=50, price=300)
+        super().__init__(potion.name, potion.class_of_weapon, potion.class_required, potion.attack_increase, potion.heal, potion.intelligence_increase, potion.mana_replenish, potion.stamina_replenish, potion.price)
 
 
 # Monster drop items for selling
-class KoboldStone(Item):
+class KoboldStone(BaseItem):
     """Drop item from Kobold monsters."""
     
     def __init__(self):
-        super().__init__(
-            name="Kobold Stone",
-            class_of_weapon="drop",
-            class_required=None,
-            attack_increase=0,
-            heal=0,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=0,
-            price=400
-        )
+        drop = create_drop_item("Kobold Stone", 400)
+        super().__init__(drop.name, drop.class_of_weapon, drop.class_required, drop.attack_increase, drop.heal, drop.intelligence_increase, drop.mana_replenish, drop.stamina_replenish, drop.price)
 
 
-class SkeletonAsh(Item):
+class SkeletonAsh(BaseItem):
     """Drop item from Skeleton monsters."""
     
     def __init__(self):
-        super().__init__(
-            name="Skeleton's ash",
-            class_of_weapon="drop",
-            class_required=None,
-            attack_increase=0,
-            heal=0,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=0,
-            price=300
-        )
+        drop = create_drop_item("Skeleton's ash", 300)
+        super().__init__(drop.name, drop.class_of_weapon, drop.class_required, drop.attack_increase, drop.heal, drop.intelligence_increase, drop.mana_replenish, drop.stamina_replenish, drop.price)
 
 
-class LizardTail(Item):
+class LizardTail(BaseItem):
     """Drop item from Lizardmen monsters."""
     
     def __init__(self):
-        super().__init__(
-            name="Lizardmen's scales",
-            class_of_weapon="drop",
-            class_required=None,
-            attack_increase=0,
-            heal=0,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=0,
-            price=600
-        )
+        drop = create_drop_item("Lizardmen's scales", 600)
+        super().__init__(drop.name, drop.class_of_weapon, drop.class_required, drop.attack_increase, drop.heal, drop.intelligence_increase, drop.mana_replenish, drop.stamina_replenish, drop.price)
 
 
-class OrcMeat(Item):
+class OrcMeat(BaseItem):
     """Drop item from Orc monsters."""
     
     def __init__(self):
-        super().__init__(
-            name="Orc Meat",
-            class_of_weapon="drop",
-            class_required=None,
-            attack_increase=0,
-            heal=0,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=0,
-            price=1000
-        )
+        drop = create_drop_item("Orc Meat", 1000)
+        super().__init__(drop.name, drop.class_of_weapon, drop.class_required, drop.attack_increase, drop.heal, drop.intelligence_increase, drop.mana_replenish, drop.stamina_replenish, drop.price)
 
 
 # Special quest items
-class CrimsonKey(Item):
+class CrimsonKey(BaseItem):
     """Special key item required for boss room access."""
     
     def __init__(self):
@@ -284,18 +193,9 @@ class CrimsonKey(Item):
         )
 
 
-class CrimsonFang(Item):
+class CrimsonFang(BaseItem):
     """Rare drop from the final boss."""
     
     def __init__(self):
-        super().__init__(
-            name="Crimson Fang",
-            class_of_weapon="drop",
-            class_required=None,
-            attack_increase=0,
-            heal=0,
-            intelligence_increase=0,
-            mana_replenish=0,
-            stamina_replenish=0,
-            price=5000
-        )
+        drop = create_drop_item("Crimson Fang", 5000)
+        super().__init__(drop.name, drop.class_of_weapon, drop.class_required, drop.attack_increase, drop.heal, drop.intelligence_increase, drop.mana_replenish, drop.stamina_replenish, drop.price)

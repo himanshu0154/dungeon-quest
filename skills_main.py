@@ -3,316 +3,216 @@ Skill system for Dungeon Quest game.
 Contains all player and monster skills with their effects and damage values.
 """
 
-import json
-import os
+from base_classes import BaseSkill, BaseMonsterSkill, load_json_file, save_json_file
 
 main_file_name = 'skills_info.json'
 
-def load_file(file_name):
-    """Load JSON file, create empty one if it doesn't exist."""
-    if not os.path.exists(file_name):
-        with open(file_name, 'w') as file:
-            json.dump({}, file)
 
-    with open(file_name, 'r') as file:
-        try:
-            return json.load(file)
-        except json.JSONDecodeError:
-            return {}
+# Skill factory functions to reduce repetition
+def create_swordsman_skill(name, lvl, attack, heal, stamina_heal, health_usage, stamina_usage):
+    """Factory function for creating swordsman skills."""
+    return BaseSkill(
+        name=name, species="Main", lvl=lvl, attack=attack, heal=heal,
+        mana_heal=0, stamina_heal=stamina_heal, mana_usage=0,
+        health_usage=health_usage, stamina_usage=stamina_usage
+    )
 
 
-def save_to_file(file_name, data):
-    """Save data to JSON file with proper formatting."""
-    with open(file_name, 'w') as file:
-        json.dump(data, file, indent=4)
+def create_mage_skill(name, lvl, attack, heal, mana_heal, mana_usage, health_usage):
+    """Factory function for creating mage skills."""
+    return BaseSkill(
+        name=name, species="Main", lvl=lvl, attack=attack, heal=heal,
+        mana_heal=mana_heal, stamina_heal=0, mana_usage=mana_usage,
+        health_usage=health_usage, stamina_usage=0
+    )
 
 
-class Skills:
-    """Base skill class for player character abilities."""
-    
-    def __init__(self, name, species, lvl, attack, heal, mana_heal, stamina_heal, mana_usage, health_usage, stamina_usage):
-        self.name = name
-        self.species = species
-        self.lvl = lvl
-        self.attack = attack
-        self.heal = heal
-        self.mana_heal = mana_heal
-        self.stamina_heal = stamina_heal
-        self.mana_usage = mana_usage
-        self.health_usage = health_usage
-        self.stamina_usage = stamina_usage
-
-    def __str__(self):
-        """Display skill information based on resource usage type."""
-        if self.mana_usage:
-            return f"\tSkill Name : {self.name}\n\tSkill Level : {self.lvl}\t\tAttack : {self.attack}\n\tHeal : {self.heal}\t\tHealth Usage : {self.health_usage}\n\tMana Heal : {self.mana_heal}\t\tMana Usage : {self.mana_usage}"
-        elif self.stamina_usage:
-            return f"\tSkill Name : {self.name}\n\tSkill Level : {self.lvl}\t\tAttack : {self.attack}\n\tHeal : {self.heal}\t\tHealth Usage : {self.health_usage}\n\tStamina Heal : {self.stamina_heal}\t\tStamina Usage : {self.stamina_usage}"
-
-
-class MonsterSkills:
-    """Base skill class for monster abilities with status effects."""
-    
-    def __init__(self, name, species, attack, status_effect, status_apply_chance, status_effect_damage, status_effect_duration):
-        self.name = name
-        self.species = species
-        self.attack = attack
-        self.status_effect = status_effect
-        self.status_apply_chance = status_apply_chance
-        self.status_effect_damage = status_effect_damage
-        self.status_effect_duration = status_effect_duration
+def create_monster_skill(name, attack, status_effect=None, status_apply_chance=None, status_effect_damage=None, status_effect_duration=None):
+    """Factory function for creating monster skills."""
+    return BaseMonsterSkill(
+        name=name, species="Monster", attack=attack,
+        status_effect=status_effect, status_apply_chance=status_apply_chance,
+        status_effect_damage=status_effect_damage, status_effect_duration=status_effect_duration
+    )
 
 
 # Swordsman skill classes
-class SwordSlash(Skills):
+class SwordSlash(BaseSkill):
     """Basic swordsman attack skill."""
     
     def __init__(self):
-        super().__init__(
-            name="Sword Slash", lvl=1, species="Main",
-            attack=15, heal=0, mana_heal=0,
-            stamina_heal=0, mana_usage=0, 
-            health_usage=0, stamina_usage=10
-        )
+        skill = create_swordsman_skill("Sword Slash", 1, 15, 0, 0, 0, 10)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class SwordStrike(Skills):
+class SwordStrike(BaseSkill):
     """Powerful swordsman attack with high stamina cost."""
     
     def __init__(self):
-        super().__init__(
-            name="Sword Strike", lvl=1, species="Main",
-            attack=25, heal=0, mana_heal=0,
-            stamina_heal=0, mana_usage=0, 
-            health_usage=0, stamina_usage=20
-            )
+        skill = create_swordsman_skill("Sword Strike", 1, 25, 0, 0, 0, 20)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class SwordCut(Skills):
+class SwordCut(BaseSkill):
     """Light swordsman attack with low stamina cost."""
     
     def __init__(self):
-        super().__init__(
-            name="Sword Cut", lvl=1, species="Main",
-            attack=5, heal=0, mana_heal=0,
-            stamina_heal=0, mana_usage=0, 
-            health_usage=0, stamina_usage=5
-            )
+        skill = create_swordsman_skill("Sword Cut", 1, 5, 0, 0, 0, 5)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class SwordHeal(Skills):
+class SwordHeal(BaseSkill):
     """Swordsman healing skill that also deals minor damage."""
     
     def __init__(self):
-        super().__init__(
-            name="Sword Heal", lvl=1, species="Main",
-            attack=5, heal=40, mana_heal=0,
-            stamina_heal=0, mana_usage=0, 
-            health_usage=0, stamina_usage=30
-            )
+        skill = create_swordsman_skill("Sword Heal", 1, 5, 40, 0, 0, 30)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class StaminaHeal(Skills):
+class StaminaHeal(BaseSkill):
     """Stamina restoration skill using health as cost."""
     
     def __init__(self):
-        super().__init__(
-            name="Stamina Heal", lvl=1, species="Main",
-            attack=0, heal=0, mana_heal=0, 
-            stamina_heal=40, mana_usage=0, 
-            health_usage=20, stamina_usage=0
-            )
+        skill = create_swordsman_skill("Stamina Heal", 1, 0, 0, 40, 20, 0)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
 # Mage skill classes
-class FireBall(Skills):
+class FireBall(BaseSkill):
     """Mage fire attack spell."""
     
     def __init__(self):
-        super().__init__(
-            name="Fire Ball", lvl=1, species="Main",
-            attack=20, heal=0, mana_heal=0,
-            stamina_heal=0, mana_usage=10,
-            health_usage=0, stamina_usage=0
-        )
+        skill = create_mage_skill("Fire Ball", 1, 20, 0, 0, 10, 0)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class IceSpike(Skills):
+class IceSpike(BaseSkill):
     """Mage ice attack spell."""
     
     def __init__(self):
-        super().__init__(
-            name="Ice Spike", lvl=1, species="Main",
-            attack=15, heal=0, mana_heal=0,
-            stamina_heal=0, mana_usage=10,
-            health_usage=0, stamina_usage=0
-        )
+        skill = create_mage_skill("Ice Spike", 1, 15, 0, 0, 10, 0)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class ArcaneShot(Skills):
+class ArcaneShot(BaseSkill):
     """Mage arcane attack spell with higher mana cost."""
     
     def __init__(self):
-        super().__init__(
-            name="Arcane Shot", lvl=1, species="Main",
-            attack=25, heal=0, mana_heal=0,
-            stamina_heal=0, mana_usage=15,
-            health_usage=0, stamina_usage=0
-        )
+        skill = create_mage_skill("Arcane Shot", 1, 25, 0, 0, 15, 0)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class HealingLight(Skills):
+class HealingLight(BaseSkill):
     """Mage healing spell."""
     
     def __init__(self):
-        super().__init__(
-            name="Healing Light", lvl=1, species="Main",
-            attack=0, heal=50, mana_heal=0,
-            stamina_heal=0, mana_usage=10,
-            health_usage=0, stamina_usage=0
-        )
+        skill = create_mage_skill("Healing Light", 1, 0, 50, 0, 10, 0)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
-class ManaHeal(Skills):
+class ManaHeal(BaseSkill):
     """Mana restoration skill using health as cost."""
     
     def __init__(self):
-        super().__init__(
-            name="Mana Heal", lvl=1, species="Main",
-            attack=0, heal=0, mana_heal=40, 
-            stamina_heal=0, mana_usage=0, 
-            health_usage=20, stamina_usage=0
-            )
+        skill = create_mage_skill("Mana Heal", 1, 0, 0, 40, 0, 20)
+        super().__init__(skill.name, skill.species, skill.lvl, skill.attack, skill.heal, skill.mana_heal, skill.stamina_heal, skill.mana_usage, skill.health_usage, skill.stamina_usage)
 
 
 # Kobold monster skills
-class RustyShiv(MonsterSkills):
+class RustyShiv(BaseMonsterSkill):
     """Kobold attack with bleed status effect."""
     
     def __init__(self):
-        super().__init__(
-            name="Rusty Shiv", species="Monster", attack=23,
-            status_effect="Bleed", status_apply_chance=0.25,
-            status_effect_damage=2, status_effect_duration=3
-            )
+        skill = create_monster_skill("Rusty Shiv", 23, "Bleed", 0.25, 2, 3)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
-class PocketFlame(MonsterSkills):
+class PocketFlame(BaseMonsterSkill):
     """Kobold fire attack with burn status effect."""
     
     def __init__(self):
-        super().__init__(
-            name="Pocket Flame", species="Monster", attack=20,
-            status_effect="Burn", status_apply_chance=0.4,
-            status_effect_damage=2, status_effect_duration=3
-            )
+        skill = create_monster_skill("Pocket Flame", 20, "Burn", 0.4, 2, 3)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
 # Skeleton monster skills
-class BonePierce(MonsterSkills):
+class BonePierce(BaseMonsterSkill):
     """Skeleton piercing attack without status effects."""
     
     def __init__(self):
-        super().__init__(
-            name="Bone Pierce", species="Monster", attack=24,
-            status_effect=None, status_apply_chance=None, 
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Bone Pierce", 24)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
-class RattleHex(MonsterSkills):
+class RattleHex(BaseMonsterSkill):
     """Skeleton magical attack without status effects."""
     
     def __init__(self):
-        super().__init__(
-            name="Rattle Hex", species="Monster", attack=26,
-            status_effect=None, status_apply_chance=None, 
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Rattle Hex", 26)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
 # Lizardmen monster skills
-class TailWhip(MonsterSkills):
+class TailWhip(BaseMonsterSkill):
     """Lizardmen physical attack without status effects."""
     
     def __init__(self):
-        super().__init__(
-            name="Tail Whip", species="Monster", attack=34,
-            status_effect=None, status_apply_chance=None,
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Tail Whip", 34)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
-class VenomousSpit(MonsterSkills):
+class VenomousSpit(BaseMonsterSkill):
     """Lizardmen poison attack with poison status effect."""
     
     def __init__(self):
-        super().__init__(
-            name="Venomous Spit", species="Monster", attack=30, 
-            status_effect="Poison", status_apply_chance=0.4, 
-            status_effect_damage=3, status_effect_duration=2
-            )
+        skill = create_monster_skill("Venomous Spit", 30, "Poison", 0.4, 3, 2)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
 # Orc monster skills
-class BrutalSmash(MonsterSkills):
+class BrutalSmash(BaseMonsterSkill):
     """Orc heavy physical attack without status effects."""
     
     def __init__(self):
-        super().__init__(
-            name="Brutal Smash", species="Monster", attack=30, 
-            status_effect=None, status_apply_chance=None, 
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Brutal Smash", 30)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
-class Skullbreaker(MonsterSkills):
+class Skullbreaker(BaseMonsterSkill):
     """Orc devastating physical attack without status effects."""
     
     def __init__(self):
-        super().__init__(
-            name="Skull Breaker", species="Monster", attack=33, 
-            status_effect=None, status_apply_chance=None, 
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Skull Breaker", 33)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
 # Vampire Lord boss skills
-class BloodDrain(MonsterSkills):
+class BloodDrain(BaseMonsterSkill):
     """Vampire Lord life-draining attack."""
     
     def __init__(self):
-        super().__init__(
-            name="Blood Drain", species="Monster", attack=43, 
-            status_effect=None, status_apply_chance=None, 
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Blood Drain", 43)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
-class CrimsonHowl(MonsterSkills):
+class CrimsonHowl(BaseMonsterSkill):
     """Vampire Lord fear-inducing attack."""
     
     def __init__(self):
-        super().__init__(
-            name="Crimson Howl", species="Monster", attack=40, 
-            status_effect=None, status_apply_chance=None, 
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Crimson Howl", 40)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
-class ShadowBurst(MonsterSkills):
+class ShadowBurst(BaseMonsterSkill):
     """Vampire Lord most powerful shadow attack."""
     
     def __init__(self):
-        super().__init__(
-            name="Shadow Burst", species="Monster", attack=50, 
-            status_effect=None, status_apply_chance=None, 
-            status_effect_damage=None, status_effect_duration=None
-            )
+        skill = create_monster_skill("Shadow Burst", 50)
+        super().__init__(skill.name, skill.species, skill.attack, skill.status_effect, skill.status_apply_chance, skill.status_effect_damage, skill.status_effect_duration)
 
 
 # Initialize skills data in JSON file if it doesn't exist
-skill_info = load_file(main_file_name)
+skill_info = load_json_file(main_file_name)
 if not skill_info:
     skills = [
         SwordCut(), SwordStrike(), SwordSlash(), SwordHeal(), StaminaHeal(),
@@ -330,4 +230,4 @@ if not skill_info:
             "Health usage": skill.health_usage,
             "Stamina usage": skill.stamina_usage
         }
-    save_to_file(main_file_name, skill_info)
+    save_json_file(main_file_name, skill_info)
