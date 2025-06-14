@@ -127,12 +127,14 @@ class BaseSkill:
 
     def __str__(self):
         """Display skill information based on resource usage type."""
-        base_info = f"\tSkill Name : {self.name}\n\tSkill Level : {self.lvl}\t\tAttack : {self.attack}\n\tHeal : {self.heal}\t\tHealth Usage : {self.health_usage}"
+        base_info = f"\tSkill Name : {self.name}\n\tSkill Level : {self.lvl}\t\tAttack : {self.attack}"
         
         if self.mana_usage:
-            return f"{base_info}\n\tMana Heal : {self.mana_heal}\t\tMana Usage : {self.mana_usage}"
+            return f"{base_info}\n\tHeal : {self.heal}\t\tMana Usage : {self.mana_usage}"
         elif self.stamina_usage:
-            return f"{base_info}\n\tStamina Heal : {self.stamina_heal}\t\tStamina Usage : {self.stamina_usage}"
+            return f"{base_info}\n\tHeal : {self.heal}\t\tStamina Usage : {self.stamina_usage}"
+        elif self.health_usage : 
+            return f"{base_info}\n\tMana Heal : {self.mana_heal}\t\tStamina Heal : {self.stamina_heal}"
 
 
 class BaseMonsterSkill:

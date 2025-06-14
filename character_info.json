@@ -2,50 +2,46 @@
     "name": "himanshu",
     "character_class": "mage",
     "max health": 100,
-    "current health": 127,
+    "current health": 100,
     "strength": 0,
-    "intelligence": 38,
+    "intelligence": 43,
     "max mana": 100,
-    "current mana": 55,
+    "current mana": 100,
     "max stamina": 0,
     "current stamina": 0,
     "inventory": [
-        "Staff of Wisdom",
+        "Kobold Stone",
+        "Kobold Stone",
+        "Lizardmen's scales",
         "Skeleton's ash",
-        "Orc Meat",
-        "Crimson Key",
-        "Crimson Fang"
+        "Skeleton's ash"
     ],
     "skills": [
         "Ice Spike",
-        "Fire Ball",
+        "Mana Heal",
         "Healing Light",
-        "Arcane Shot",
-        "Mana Heal"
+        "Fire Ball",
+        "Arcane Shot"
     ],
     "lvl": 5,
-    "experience": 200,
-    "stat_points": 52,
-    "gold": 300,
+    "experience": 0,
+    "stat_points": 17,
+    "gold": 0,
     "status_effect": null,
     "status_duration": 0,
     "weapon": null,
-    "location": "Chamber of the Forsaken",
+    "location": "The Whispering Hearth",
     "location discovered": [
         "Main Entrance",
         "Kobold's Den",
         "Sanctuary of Solace",
         "LizardMen's Lair",
-        "Chamber of the Forsaken",
         "Graveyard",
-        "The Whispering Hearth",
-        "Orc Village"
+        "The Whispering Hearth"
     ],
     "chest founded": [
-        "chest1 opened",
-        "chest3 opened",
-        "chest4 opened"
+        "chest3 opened"
     ],
-    "boss defeated": "story ends",
-    "previous room": "Orc Village"
+    "boss defeated": "undefeated",
+    "previous room": "Graveyard"
 }
