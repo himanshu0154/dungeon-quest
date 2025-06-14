@@ -4,52 +4,21 @@ Handles game loop, location management, and character progression.
 """
 
 import engine_main as game_engine
+from characters_main import (
+    MainCharacter, Merchant, Orc, Skeleton, KoboldMonster, 
+    LizardMen, VampireLord
+)
+from skills_main import (
+    SwordCut, SwordHeal, SwordSlash, SwordStrike, StaminaHeal,
+    FireBall, IceSpike, ArcaneShot, HealingLight, ManaHeal
+)
+from items_main import (
+    StaffOfWisdom, TitanSlayer, IronFangBlade, KnightsEdge,
+    ArcaneOrb, EnchantedCloak, HealthPotion, StaminaPotion,
+    ManaPotion, KoboldStone, SkeletonAsh, LizardTail, OrcMeat
+)
+
 main_file_name = "character_info.json"
-
-from characters_main import MainCharacter
-from characters_main import Merchant
-from characters_main import Orc
-from characters_main import Skeleton
-from characters_main import KoboldMonster
-from characters_main import LizardMen
-from characters_main import VampireLord
-
-from skills_main import SwordCut
-from skills_main import SwordHeal
-from skills_main import SwordSlash
-from skills_main import SwordStrike
-from skills_main import StaminaHeal
-from skills_main import FireBall
-from skills_main import IceSpike
-from skills_main import ArcaneShot
-from skills_main import HealingLight
-from skills_main import ManaHeal
-
-from items_main import StaffOfWisdom
-from items_main import TitanSlayer
-from items_main import IronFangBlade
-from items_main import KnightsEdge
-from items_main import ArcaneOrb
-from items_main import EnchantedCloak
-from items_main import HealthPotion
-from items_main import StaminaPotion
-from items_main import ManaPotion
-from items_main import KoboldStone
-from items_main import SkeletonAsh
-from items_main import LizardTail
-from items_main import OrcMeat
-
-from skills_main import RustyShiv
-from skills_main import PocketFlame
-from skills_main import RattleHex
-from skills_main import BonePierce
-from skills_main import TailWhip
-from skills_main import VenomousSpit
-from skills_main import Skullbreaker
-from skills_main import BrutalSmash
-from skills_main import CrimsonHowl
-from skills_main import ShadowBurst
-from skills_main import BloodDrain
 
 
 # Custom exception classes for game logic
@@ -66,84 +35,36 @@ class InvalidInput(Exception):
     pass
 
 
-# Initialize player skill instances
-sword_cut = SwordCut()
-sword_strike = SwordStrike()
-sword_slash = SwordSlash()
-sword_heal = SwordHeal()
-stamina_heal = StaminaHeal()
-
-fire_ball = FireBall()
-ice_spike = IceSpike()
-arcane_shot = ArcaneShot()
-healing_light = HealingLight()
-mana_heal = ManaHeal()
-
-# Initialize monster skill instances
-rusty_shiv = RustyShiv()
-pocket_flame = PocketFlame()
-bone_pierce = BonePierce()
-rattle_hex = RattleHex()
-tail_whip = TailWhip()
-venomous_spit = VenomousSpit()
-brutal_smash = BrutalSmash()
-skull_breaker = Skullbreaker()
-blood_drain = BloodDrain()
-crimson_howl = CrimsonHowl()
-shadow_burst = ShadowBurst()
-
-# Initialize item instances
-iron_fang_blade = IronFangBlade()
-knights_edge = KnightsEdge()
-titan_slayer = TitanSlayer()
-staff_of_wisdom = StaffOfWisdom()
-arcane_orb = ArcaneOrb()
-enchanted_cloak = EnchantedCloak()
-health_potion = HealthPotion()
-mana_potion = ManaPotion()
-stamina_potion = StaminaPotion()
-kobold_stone = KoboldStone()
-skeleton_ash = SkeletonAsh()
-lizard_tail = LizardTail()
-orc_meat = OrcMeat()
-
 # Item lookup dictionary for inventory management
 items_list = {
-    "Iron Fang Blade": iron_fang_blade,
-    "Knight's Edge": knights_edge,
-    "Titan Slayer": titan_slayer,
-    "Staff of Wisdom": staff_of_wisdom,
-    "Arcane Orb": arcane_orb,
-    "Enchanted Cloak": enchanted_cloak,
-    "Health Potion": health_potion,
-    "Mana Potion": mana_potion,
-    "Stamina Potion": stamina_potion,
-    "Kobold Stone": kobold_stone,
-    "Skeleton's ash": skeleton_ash,
-    "Lizardmen's scales": lizard_tail,
-    "Orc Meat": orc_meat
+    "Iron Fang Blade": IronFangBlade(),
+    "Knight's Edge": KnightsEdge(),
+    "Titan Slayer": TitanSlayer(),
+    "Staff of Wisdom": StaffOfWisdom(),
+    "Arcane Orb": ArcaneOrb(),
+    "Enchanted Cloak": EnchantedCloak(),
+    "Health Potion": HealthPotion(),
+    "Mana Potion": ManaPotion(),
+    "Stamina Potion": StaminaPotion(),
+    "Kobold Stone": KoboldStone(),
+    "Skeleton's ash": SkeletonAsh(),
+    "Lizardmen's scales": LizardTail(),
+    "Orc Meat": OrcMeat()
 }
 
 # Skill lookup dictionary for character abilities
 skill_list = {
-    "Sword Cut": sword_cut,
-    "Sword Strike": sword_strike,
-    "Sword Slash": sword_slash,
-    "Sword Heal": sword_heal,
-    "Fire Ball": fire_ball,
-    "Ice Spike": ice_spike,
-    "Arcane Shot": arcane_shot,
-    "Healing Light": healing_light,
-    "Mana Heal": mana_heal,
-    "Stamina Heal": stamina_heal
+    "Sword Cut": SwordCut(),
+    "Sword Strike": SwordStrike(),
+    "Sword Slash": SwordSlash(),
+    "Sword Heal": SwordHeal(),
+    "Fire Ball": FireBall(),
+    "Ice Spike": IceSpike(),
+    "Arcane Shot": ArcaneShot(),
+    "Healing Light": HealingLight(),
+    "Mana Heal": ManaHeal(),
+    "Stamina Heal": StaminaHeal()
 }
-
-# Initialize monster instances
-kobold = KoboldMonster()
-skeleton = Skeleton()
-lizardmen = LizardMen()
-orc = Orc()
-vampire_lord = VampireLord()
 
 
 # Main game execution
@@ -172,23 +93,23 @@ if __name__ == "__main__":
 
         # First route locations
         elif main_character.location == "Kobold's Den":
-            game_engine.Battle_rooms(main_character, "Kobold's Den", kobold, "Main Entrance", "Sanctuary of Solace")
+            game_engine.Battle_rooms(main_character, "Kobold's Den", KoboldMonster(), "Main Entrance", "Sanctuary of Solace")
 
         elif main_character.location == "Sanctuary of Solace":
             game_engine.safe_zones_menu(main_character, "Sanctuary of Solace", "Kobold's Den", "Kobold's Den", "Next Room", "LizardMen's Lair")
 
         elif main_character.location == "LizardMen's Lair":
-            game_engine.Battle_rooms(main_character, "LizardMen's Lair", lizardmen, "Sanctuary of Solace", "Chamber of the Forsaken")
+            game_engine.Battle_rooms(main_character, "LizardMen's Lair", LizardMen(), "Sanctuary of Solace", "Chamber of the Forsaken")
 
         # Second route locations
         elif main_character.location == "Graveyard":
-            game_engine.Battle_rooms(main_character, "Graveyard", skeleton, "Main Entrance", "The Whispering Hearth")
+            game_engine.Battle_rooms(main_character, "Graveyard", Skeleton(), "Main Entrance", "The Whispering Hearth")
 
         elif main_character.location == "The Whispering Hearth":
             game_engine.safe_zones_menu(main_character, "The Whispering Hearth", "Graveyard", "Graveyard", "Next Room", "Orc Village")
 
         elif main_character.location == "Orc Village":
-            game_engine.Battle_rooms(main_character, "Orc Village", orc, "The Whispering Hearth", "Chamber of the Forsaken")
+            game_engine.Battle_rooms(main_character, "Orc Village", Orc(), "The Whispering Hearth", "Chamber of the Forsaken")
 
         # Final boss area
         elif main_character.location == "Chamber of the Forsaken":
@@ -257,4 +178,4 @@ if __name__ == "__main__":
                 
                 elif main_character.boss_defeated == "story ends":
                     # Post-game exploration mode
-                    game_engine.boss_room_menu_end(main_character, "Chamber of the Forsaken", vampire_lord, "Orc Village", "LizardMen's Lair")
+                    game_engine.boss_room_menu_end(main_character, "Chamber of the Forsaken", VampireLord(), "Orc Village", "LizardMen's Lair")

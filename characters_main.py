@@ -3,26 +3,15 @@ Character system for Dungeon Quest game.
 Contains all character classes including main character, enemies, monsters, and NPCs.
 """
 
-from items_main import StaffOfWisdom
-from items_main import TitanSlayer
-from items_main import IronFangBlade
-from items_main import KnightsEdge
-from items_main import ArcaneOrb
-from items_main import EnchantedCloak
-from items_main import HealthPotion
-from items_main import StaminaPotion
-from items_main import ManaPotion
-from skills_main import RustyShiv
-from skills_main import PocketFlame
-from skills_main import RattleHex
-from skills_main import BonePierce
-from skills_main import TailWhip
-from skills_main import VenomousSpit
-from skills_main import Skullbreaker
-from skills_main import BrutalSmash
-from skills_main import CrimsonHowl
-from skills_main import ShadowBurst
-from skills_main import BloodDrain
+from items_main import (
+    StaffOfWisdom, TitanSlayer, IronFangBlade, KnightsEdge, 
+    ArcaneOrb, EnchantedCloak, HealthPotion, StaminaPotion, ManaPotion
+)
+from skills_main import (
+    RustyShiv, PocketFlame, RattleHex, BonePierce, TailWhip, 
+    VenomousSpit, Skullbreaker, BrutalSmash, CrimsonHowl, 
+    ShadowBurst, BloodDrain
+)
 
 
 class Character:
@@ -137,15 +126,6 @@ class MainCharacter(Character):
         return f"System : | Name : {self.name}\n\t | Class : {self.character_class}\t\t\tgold : {self.gold}\n\t | Level : {self.lvl}\t\t\tExperience Points : {self.experience}\n\t | Health : {self.current_health}\t\t\tMana : {self.current_mana}\n\t | Strength : {self.strength}\t\t\tSkills : {list(self.skills)}\n\t | Intelligence : {self.intelligence}\t\tInventory : {self.inventory}\n\t | Stamina : {self.current_stamina}\t\t\tStat Points : {self.stat_points}"
 
 
-class Enemies(Character):
-    """Enemy character class with loot drops."""
-    
-    def __init__(self, name, character_class, strength, health, mana, drop, drop_price):
-        super().__init__(name, character_class, health, health, strength, 0, mana, mana, 0, 0)
-        self.drop = drop
-        self.drop_price = drop_price
-
-
 class Monsters:
     """Base monster class for combat encounters."""
     
@@ -159,61 +139,44 @@ class Monsters:
         return f"System : | Name : {self.name}\n\t | Health : {self.health}"
 
 
-# Monster skill instances for combat
-rusty_shiv = RustyShiv()
-pocket_flame = PocketFlame()
-
 class KoboldMonster(Monsters):
     """Kobold enemy with bleed and burn attacks."""
     
     def __init__(self):
         super().__init__(name="Kobold", health=100, drop="Kobold Stone", exp=200)
-        self.skills = [rusty_shiv, pocket_flame]
+        self.skills = [RustyShiv(), PocketFlame()]
 
-
-bone_pierce = BonePierce()
-rattle_hex = RattleHex()
 
 class Skeleton(Monsters):
     """Skeleton enemy with bone-based attacks."""
     
     def __init__(self):
         super().__init__(name="Skeleton", health=100, drop="Skeleton's ash", exp=100)
-        self.skills = [bone_pierce, rattle_hex]
+        self.skills = [BonePierce(), RattleHex()]
 
-
-tail_whip = TailWhip()
-venomous_spit = VenomousSpit()
 
 class LizardMen(Monsters):
     """Lizardmen enemy with poison attacks."""
     
     def __init__(self):
         super().__init__(name="Lizard Men", health=100, drop="Lizardmen's scales", exp=400)
-        self.skills = [tail_whip, venomous_spit]
+        self.skills = [TailWhip(), VenomousSpit()]
 
-
-brutal_smash = BrutalSmash()
-skull_breaker = Skullbreaker()
 
 class Orc(Monsters):
     """Orc enemy with powerful physical attacks."""
     
     def __init__(self):
         super().__init__(name="Orc", health=100, drop="Orc Meat", exp=500)
-        self.skills = [brutal_smash, skull_breaker]
+        self.skills = [BrutalSmash(), Skullbreaker()]
 
-
-blood_drain = BloodDrain()
-crimson_howl = CrimsonHowl()
-shadow_burst = ShadowBurst()
 
 class VampireLord(Monsters):
     """Final boss with devastating vampire abilities."""
     
     def __init__(self):
         super().__init__(name="Vehraxis the Crimson Wane", health=200, drop="Crimson Fang", exp=1000)
-        self.skills = [blood_drain, crimson_howl, shadow_burst]
+        self.skills = [BloodDrain(), CrimsonHowl(), ShadowBurst()]
 
 
 class NPC:
@@ -224,32 +187,21 @@ class NPC:
         self.occupation = occupation
 
 
-# Item instances for merchant inventory
-iron_fang_blade = IronFangBlade()
-knights_edge = KnightsEdge()
-titan_slayer = TitanSlayer()
-staff_of_wisdom = StaffOfWisdom()
-arcane_orb = ArcaneOrb()
-enchanted_cloak = EnchantedCloak()
-health_potion = HealthPotion()
-stamina_potion = StaminaPotion()
-mana_potion = ManaPotion()
-
 class Merchant(NPC):
     """Merchant NPC for buying and selling items."""
     
     def __init__(self):
         super().__init__(name="Merchant Todd", occupation="Merchant")
         self.goods = {
-            1: iron_fang_blade,
-            2: knights_edge,
-            3: titan_slayer,
-            4: staff_of_wisdom,
-            5: arcane_orb,
-            6: enchanted_cloak,
-            7: health_potion,
-            8: mana_potion,
-            9: stamina_potion
+            1: IronFangBlade(),
+            2: KnightsEdge(),
+            3: TitanSlayer(),
+            4: StaffOfWisdom(),
+            5: ArcaneOrb(),
+            6: EnchantedCloak(),
+            7: HealthPotion(),
+            8: ManaPotion(),
+            9: StaminaPotion()
         }
 
     def show_items(self):

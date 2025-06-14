@@ -311,23 +311,14 @@ class ShadowBurst(MonsterSkills):
             )
 
 
-# Initialize skill instances for JSON saving
-sword_cut = SwordCut()
-sword_strike = SwordStrike()
-sword_slash = SwordSlash()
-sword_heal = SwordHeal()
-stamina_heal = StaminaHeal()
-fire_ball = FireBall()
-ice_spike = IceSpike()
-arcane_shot = ArcaneShot()
-healing_light = HealingLight()
-mana_heal = ManaHeal()
-
-skills = [sword_cut, sword_strike, sword_slash, sword_heal, stamina_heal, fire_ball, ice_spike, arcane_shot, healing_light, mana_heal]
-
 # Initialize skills data in JSON file if it doesn't exist
 skill_info = load_file(main_file_name)
 if not skill_info:
+    skills = [
+        SwordCut(), SwordStrike(), SwordSlash(), SwordHeal(), StaminaHeal(),
+        FireBall(), IceSpike(), ArcaneShot(), HealingLight(), ManaHeal()
+    ]
+    
     for skill in skills:
         skill_info[skill.name] = {
             "level": skill.lvl,

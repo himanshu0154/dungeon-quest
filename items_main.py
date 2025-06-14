@@ -3,24 +3,6 @@ Item system for Dungeon Quest game.
 Contains all weapon, potion, and drop item classes with their stats and effects.
 """
 
-import json
-
-
-main_file_name = 'skills_info.json'
-
-def load_file(file_name):
-    """Load JSON data from file, return empty dict if file doesn't exist."""
-    with open(file_name, 'r') as file:
-        try:
-             return json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return {}
-        
-def save_to_file(file_name, data):
-    """Save data to JSON file with proper formatting."""
-    with open(file_name, 'w') as file:
-        json.dump(data, file, indent=4)
-
 
 class Item:
     """Base item class with common attributes for all items."""
